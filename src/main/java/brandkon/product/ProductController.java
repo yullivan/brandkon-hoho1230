@@ -28,7 +28,7 @@ public class ProductController {
             return service.showCategoryPopular(categoryId);
         }else if(brandId!=null) {
             return service.showBrandPopular(brandId);
-        }else return service.showAll();
+        }else return service.showPopular();
 
 
     }

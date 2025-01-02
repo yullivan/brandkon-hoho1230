@@ -19,16 +19,19 @@ public class Product {
     @ManyToOne
     private Brand brand;
 
+    private Long saleCount;
+
 
     public Product() {
     }
 
-    public Product(String productName, Long price, Long expirationDays, String imageUrl, Brand brand) {
+    public Product(String productName, Long price, Long expirationDays, String imageUrl, Brand brand,Long saleCount) {
         this.productName = productName;
         this.price = price;
         this.expirationDays = expirationDays;
         this.imageUrl = imageUrl;
         this.brand = brand;
+        this.saleCount=saleCount;
     }
 
     public Long getId() {
@@ -79,18 +82,25 @@ public class Product {
         this.expirationDays = expirationDays;
     }
 
+    public Long getSaleCount() {
+        return saleCount;
+    }
+
+    public void setSaleCount(Long saleCount) {
+        this.saleCount = saleCount;
+    }
+
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(productName, product.productName) && Objects.equals(price, product.price) && Objects.equals(expirationDays, product.expirationDays) && Objects.equals(imageUrl, product.imageUrl) && Objects.equals(brand, product.brand);
+        return Objects.equals(id, product.id) && Objects.equals(productName, product.productName) && Objects.equals(price, product.price) && Objects.equals(expirationDays, product.expirationDays) && Objects.equals(imageUrl, product.imageUrl) && Objects.equals(brand, product.brand) && Objects.equals(saleCount, product.saleCount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, productName, price, expirationDays, imageUrl, brand);
+        return Objects.hash(id, productName, price, expirationDays, imageUrl, brand, saleCount);
     }
 
     @Override
@@ -102,6 +112,7 @@ public class Product {
                 ", expirationDays=" + expirationDays +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", brand=" + brand +
+                ", saleCount=" + saleCount +
                 '}';
     }
 }

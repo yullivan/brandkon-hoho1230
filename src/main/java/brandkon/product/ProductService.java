@@ -44,6 +44,7 @@ public class ProductService {
     List<ProductResponse> showCategoryPopular(Long id){
         Category category = categoryRepository.findById(id).orElseThrow();
         return  productRepository.findByBrand_Category_Id(category.getId()).stream()
+                .sorted((o1, o2) -> Long.compare(o2.getSaleCount(), o1.getSaleCount()))
                 .map(product -> new ProductResponse(
                         product.getId(),
                         product.getBrand().getName(),
@@ -55,6 +56,7 @@ public class ProductService {
     List<ProductResponse> showBrandPopular(Long id){
         Brand brand = brandRepository.findById(id).orElseThrow();
         return  productRepository.findByBrandId(brand.getId()).stream()
+                .sorted((o1, o2) -> Long.compare(o2.getSaleCount(), o1.getSaleCount()))
                 .map(product -> new ProductResponse(
                         product.getId(),
                         product.getBrand().getName(),
@@ -76,5 +78,18 @@ public class ProductService {
                         product.getImageUrl()
                 )).toList();
     }
+    List<ProductResponse> showPopular(){
+        return productRepository.findAll()
+                .stream()
+                .sorted((o1, o2) -> Long.compare(o2.getSaleCount(), o1.getSaleCount()))
+                .map(product -> new ProductResponse(
+                        product.getId(),
+                        product.getBrand().getName(),
+                        product.getProductName(),
+                        product.getPrice(),
+                        product.getImageUrl()
+                )).toList();
 
+
+    }
 }
