@@ -1,10 +1,10 @@
 package brandkon.product;
 
 public record ProductDetailResponse(
-        Long id,
+        Long productId,
         String productName,
         Long price,
-        BrandDetailResponses responses,
-        int expirationDays
+        BrandDetailResponses brand,
+        Long expirationDays
 ) {
 }

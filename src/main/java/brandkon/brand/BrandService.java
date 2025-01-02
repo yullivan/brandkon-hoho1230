@@ -25,7 +25,8 @@ public class BrandService {
                )).toList();
     }
     List<BrandResponse> showCategory(String name){
-        return repository.findByCategory(name)
+        List<Brand> byCategorySlug = repository.findByCategorySlug(name);
+        return byCategorySlug
                 .stream()
                 .map(brand -> new BrandResponse(
                         brand.getId(),

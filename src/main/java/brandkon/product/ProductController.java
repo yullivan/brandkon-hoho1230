@@ -15,19 +15,26 @@ public class ProductController {
         this.service = service;
     }
     @GetMapping("/products")
-    public List<ProductResponse> showAll(@RequestParam(required = false) Long Brandid){
-        if(Brandid!=null){
-            return service.showBrandId(Brandid);
+    public List<ProductResponse> showAll(@RequestParam(required = false) Long brandId){
+        if(brandId!=null){
+            return service.showBrandId(brandId);
         }
         return service.showAll();
     }
     @GetMapping("/products/popular")
-    public List<ProductResponse> showPopular(@RequestParam Long id){
-        return service.showPopular(id);
+    public List<ProductResponse> showPopular(@RequestParam(required = false) Long categoryId
+            ,@RequestParam(required = false) Long brandId){
+        if(categoryId!=null) {
+            return service.showCategoryPopular(categoryId);
+        }else if(brandId!=null) {
+            return service.showBrandPopular(brandId);
+        }else return service.showAll();
+
+
     }
-    @GetMapping("/products")
-    public ProductResponse showId(@PathVariable Long id){
-        return service.showId(id);
+    @GetMapping("/products/{productId}")
+    public ProductDetailResponse showId(@PathVariable Long productId){
+        return service.showId(productId);
     }
 
 }

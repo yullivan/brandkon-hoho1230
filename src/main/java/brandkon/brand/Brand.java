@@ -17,10 +17,11 @@ public class Brand {
     private Category category;
     private String guideLines;
 
-    public Brand(String name, String imageUrl, Category category) {
+    public Brand(String name, String imageUrl, Category category, String guideLines) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.category = category;
+        this.guideLines = guideLines;
     }
 
     public Brand() {
@@ -58,17 +59,25 @@ public class Brand {
         this.imageUrl = imageUrl;
     }
 
+    public String getGuideLines() {
+        return guideLines;
+    }
+
+    public void setGuideLines(String guideLines) {
+        this.guideLines = guideLines;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Brand brand = (Brand) o;
-        return Objects.equals(id, brand.id) && Objects.equals(name, brand.name) && Objects.equals(imageUrl, brand.imageUrl) && Objects.equals(category, brand.category);
+        return Objects.equals(id, brand.id) && Objects.equals(name, brand.name) && Objects.equals(imageUrl, brand.imageUrl) && Objects.equals(category, brand.category) && Objects.equals(guideLines, brand.guideLines);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, imageUrl, category);
+        return Objects.hash(id, name, imageUrl, category, guideLines);
     }
 
     @Override
@@ -78,6 +87,7 @@ public class Brand {
                 ", name='" + name + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", category=" + category +
+                ", guideLines='" + guideLines + '\'' +
                 '}';
     }
 }

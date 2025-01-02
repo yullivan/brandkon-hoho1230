@@ -16,13 +16,13 @@ public class BrandController {
     }
 
     @GetMapping("/brands")
-    public List<BrandResponse> showAll(@RequestParam(required = false) String categoryName){
-        if(categoryName!=null) {
-            return service.showCategory(categoryName);
+    public List<BrandResponse> showAll(@RequestParam(required = false) String categorySlug){
+        if(categorySlug!=null) {
+            return service.showCategory(categorySlug);
         }else return service.showAll();
     }
-    @GetMapping("/brands")
-    public BrandResponse showId(@PathVariable Long id){
-        return service.showId(id);
+    @GetMapping("/brands/{brandId}")
+    public BrandResponse showId(@PathVariable Long brandId){
+        return service.showId(brandId);
     }
 }

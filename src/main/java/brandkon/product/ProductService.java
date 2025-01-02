@@ -1,6 +1,8 @@
 package brandkon.product;
 
+import brandkon.brand.Brand;
 import brandkon.brand.BrandRepository;
+import brandkon.category.Category;
 import brandkon.category.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,6 @@ public class ProductService {
         this.categoryRepository = categoryRepository;
     }
 
-
     List<ProductResponse> showAll(){
        return productRepository.findAll()
                .stream()
@@ -30,16 +31,42 @@ public class ProductService {
                        product.getImageUrl()
                )).toList();
     }
-    ProductResponse showId(Long id){
+    ProductDetailResponse showId(Long id){
+
         Product product = productRepository.findById(id).orElseThrow();
-        return new ProductResponse(product.getId(),
+        Brand brand = brandRepository.findById(product.getBrand().getId()).orElseThrow();
+        return new ProductDetailResponse(product.getId(),
                 product.getBrand().getName(),
-                product.getProductName(),
                 product.getPrice(),
-                product.getImageUrl());
+                new BrandDetailResponses(brand.getId(), brand.getName(), brand.getGuideLines()),
+                product.getExpirationDays());
     }
-    List<ProductResponse> showPopular(Long id){
-        return productRepository.findById(id)
+    List<ProductResponse> showCategoryPopular(Long id){
+        Category category = categoryRepository.findById(id).orElseThrow();
+        return  productRepository.findByBrand_Category_Id(category.getId()).stream()
+                .map(product -> new ProductResponse(
+                        product.getId(),
+                        product.getBrand().getName(),
+                        product.getProductName(),
+                        product.getPrice(),
+                        product.getImageUrl()
+                )).toList();
+    }
+    List<ProductResponse> showBrandPopular(Long id){
+        Brand brand = brandRepository.findById(id).orElseThrow();
+        return  productRepository.findByBrandId(brand.getId()).stream()
+                .map(product -> new ProductResponse(
+                        product.getId(),
+                        product.getBrand().getName(),
+                        product.getProductName(),
+                        product.getPrice(),
+                        product.getImageUrl()
+                )).toList();
+    }
+
+    List<ProductResponse> showBrandId(Long brandId) {
+        Brand brand = brandRepository.findById(brandId).orElseThrow();
+        return productRepository.findByBrandId(brand.getId())
                 .stream()
                 .map(product -> new ProductResponse(
                         product.getId(),
@@ -50,16 +77,4 @@ public class ProductService {
                 )).toList();
     }
 
-    List<ProductResponse> showBrandId(Long brandid) {
-        return productRepository.findByBrandId(brandid)
-                .stream()
-                .map(product -> new ProductResponse(
-                        product.getId(),
-                        product.getBrand().getName(),
-                        product.getProductName(),
-                        product.getPrice(),
-                        product.getImageUrl()
-                )).toList();
-
-    }
 }
