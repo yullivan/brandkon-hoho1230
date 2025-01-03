@@ -1,6 +1,8 @@
 package brandkon.category;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -21,5 +23,12 @@ public class CategoryService {
                         category.getSlug(),
                         category.getImageUrl()))
                 .toList();
+    }
+    @Transactional
+    public void update(Long id,CategoryRequest request){
+        Category category = repository.findById(id).orElseThrow();
+        category.setName(request.name());
+        category.setSlug(request.slug());
+        category.setImageUrl(request.imageUrl());
     }
 }
