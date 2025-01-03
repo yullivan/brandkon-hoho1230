@@ -1,5 +1,7 @@
 package brandkon.category;
 
+import brandkon.brand.Brand;
+import brandkon.brand.BrandCategory;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 @EntityListeners(AuditingEntityListener.class)
 
@@ -16,12 +19,18 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String slug;
     private String imageUrl;
+
+    @OneToMany(mappedBy = "category")
+    private List<BrandCategory> brandCategories;
+
     @CreatedDate
     //@Column(nullable = false)
     private LocalDateTime createdAt;
+
     @LastModifiedDate
     //@Column(nullable = false)
     private LocalDateTime updatedAt;

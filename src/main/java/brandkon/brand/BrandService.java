@@ -9,10 +9,12 @@ import java.util.List;
 public class BrandService {
     BrandRepository repository;
     CategoryRepository categoryRepository;
+    BrandCategoryRepository bcRepository;
 
-    public BrandService(BrandRepository repository, CategoryRepository categoryRepository) {
+    public BrandService(BrandRepository repository, CategoryRepository categoryRepository, BrandCategoryRepository bcRepository) {
         this.repository = repository;
         this.categoryRepository = categoryRepository;
+        this.bcRepository = bcRepository;
     }
 
     List<BrandResponse> showAll(){
@@ -25,13 +27,13 @@ public class BrandService {
                )).toList();
     }
     List<BrandResponse> showCategory(String name){
-        List<Brand> byCategorySlug = repository.findByCategorySlug(name);
+        List<BrandCategory> byCategorySlug = bcRepository.findByCategorySlug(name);
         return byCategorySlug
                 .stream()
                 .map(brand -> new BrandResponse(
-                        brand.getId(),
-                        brand.getName(),
-                        brand.getImageUrl()
+                        brand.getBrand().getId(),
+                        brand.getBrand().getName(),
+                        brand.getBrand().getImageUrl()
                 )).toList();
     }
 

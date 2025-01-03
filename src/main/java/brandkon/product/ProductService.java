@@ -41,9 +41,22 @@ public class ProductService {
                 new BrandDetailResponses(brand.getId(), brand.getName(), brand.getGuideLines()),
                 product.getExpirationDays());
     }
+//    List<ProductResponse> showCategoryPopular(Long id){
+//        Category category = categoryRepository.findById(id).orElseThrow();
+//        return  productRepository.findByBrand_Category_Id(category.getId()).stream()
+//                .sorted((o1, o2) -> Long.compare(o2.getSaleCount(), o1.getSaleCount()))
+//                .map(product -> new ProductResponse(
+//                        product.getId(),
+//                        product.getBrand().getName(),
+//                        product.getProductName(),
+//                        product.getPrice(),
+//                        product.getImageUrl()
+//                )).toList();
+//    }
+
     List<ProductResponse> showCategoryPopular(Long id){
-        Category category = categoryRepository.findById(id).orElseThrow();
-        return  productRepository.findByBrand_Category_Id(category.getId()).stream()
+        //Category category = categoryRepository.findById(id).orElseThrow();
+        return  productRepository.findByCategoryId(id).stream()
                 .sorted((o1, o2) -> Long.compare(o2.getSaleCount(), o1.getSaleCount()))
                 .map(product -> new ProductResponse(
                         product.getId(),

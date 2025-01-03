@@ -3,6 +3,8 @@ package brandkon.brand;
 import brandkon.category.Category;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,27 +15,21 @@ public class Brand {
 
     private String name;
     private String imageUrl;
-    @ManyToOne
-    private Category category;
+
+    @OneToMany(mappedBy = "brand")
+    private List<BrandCategory> brandCategories;
     private String guideLines;
 
-    public Brand(String name, String imageUrl, Category category, String guideLines) {
+    public Brand(String name, String imageUrl, List<BrandCategory> brandCategories, String guideLines) {
         this.name = name;
         this.imageUrl = imageUrl;
-        this.category = category;
+        this.brandCategories = brandCategories;
         this.guideLines = guideLines;
     }
 
     public Brand() {
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     public Long getId() {
         return id;
@@ -72,12 +68,12 @@ public class Brand {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Brand brand = (Brand) o;
-        return Objects.equals(id, brand.id) && Objects.equals(name, brand.name) && Objects.equals(imageUrl, brand.imageUrl) && Objects.equals(category, brand.category) && Objects.equals(guideLines, brand.guideLines);
+        return Objects.equals(id, brand.id) && Objects.equals(name, brand.name) && Objects.equals(imageUrl, brand.imageUrl) && Objects.equals(brandCategories, brand.brandCategories) && Objects.equals(guideLines, brand.guideLines);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, imageUrl, category, guideLines);
+        return Objects.hash(id, name, imageUrl, brandCategories, guideLines);
     }
 
     @Override
@@ -86,7 +82,7 @@ public class Brand {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", category=" + category +
+                ", brandCategories=" + brandCategories +
                 ", guideLines='" + guideLines + '\'' +
                 '}';
     }
